@@ -1,5 +1,5 @@
 # interactive_form
- *An interactive registration form for a fictional Full Stack conference.
+ *An interactive registration form for a fictional Full Stack conference.*
 
 **Features**
  - Allows form users to register with required and optional fields
@@ -8,7 +8,8 @@
  - Provides custom user error-messaging related to the associated validation
 
 **Code Example**
- The following is a JS code-snippet of allowing the user to dynamically switch between different payment methods, and displaying/hiding the associated input fields relative to the selected payment method.
+
+The following is a JS code-snippet of allowing the user to dynamically switch between different payment methods, and displaying/hiding the associated input fields relative to the selected payment method.
 ```
 /*** 
  * Payment Information
@@ -38,9 +39,10 @@ paymentSelect.addEventListener('input', e => {
 ```
 
 **Custom Error Messaging**
- Users will get more specific error-messaging based on the validation effort.
- For example, if the email field is blank, the user will receive an error-message describing that.
- However, if it's not blank but formatted incorrectly, they will receive a different error-message.
+
+Users will get more specific error-messaging based on the validation effort.
+For example, if the email field is blank, the user will receive an error-message describing that.
+However, if it's not blank but formatted incorrectly, they will receive a different error-message.
 ```
 if(!element.value)
     hint.textContent = 'Email address field cannot be empty';
@@ -50,4 +52,5 @@ else
 Finally, the user will be notified that the field is correctly formatted if it passes validation.
 
 **How to use?**  
- You can preview what the code does by downloading the project and opening index.html.
+
+You can preview what the code does by downloading the project and opening index.html.
