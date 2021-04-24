@@ -201,7 +201,7 @@ function validateField(field)
         case 'zip':
             fieldIsValid = /^\d{5}$/.test(element.value);
             if(!element.value)
-                hint.textContent = 'Zip code field cannot be empty';
+                hint.textContent = 'Zip Code field cannot be empty';
             else
                 hint.textContent = 'Zip Code must be 5 digits';
         break;
@@ -214,7 +214,7 @@ function validateField(field)
         break;
     }
 
-    // If field is not valid, flag user
+    // If the input field is not valid, flag user
     if(!fieldIsValid)
     {
         label.className = 'not-valid';
@@ -222,7 +222,7 @@ function validateField(field)
         return false;
     }
 
-    // If field is valid, submit
+    // If the input field is valid, continue to submit
     label.className = 'valid';
     hint.style.display = 'none';
     return true;
@@ -237,9 +237,12 @@ function addListenersToField(field)
     element.addEventListener('keyup', () => {
         validateField(field);
     });
+    element.addEventListener('blur', () => {
+        validateField(field);
+    });
 }
 
-// Validate activities don't share the same timeslot, and that at least one activity is checked
+// Validate that activities don't share the same timeslot, and that at least one activity is checked
 function validateActivity(event)
 {
     const activityInputs = document.querySelectorAll('#activities input');
