@@ -115,7 +115,7 @@ paymentSelect.addEventListener('input', e => {
     for(let i = 1; i < paymentSelect.length; i++)
     {
         method !== paymentMethods[i].id ? paymentMethods[i].style.display = 'none' :
-        paymentMethods[i].style.display = 'block';
+                                          paymentMethods[i].style.display = 'block';
     }
 });
 
@@ -233,13 +233,8 @@ function addListenersToField(field)
 {
     const element = document.querySelector(`#${field}`);
 
-    // Remove input field flag on focus
-    element.addEventListener('focus', () => {
-        element.parentNode.className = '';
-        element.nextElementSibling.style.display = 'none';
-    });
     // Flag user if the input field is invalid
-    element.addEventListener('blur', () => {
+    element.addEventListener('keyup', () => {
         validateField(field);
     });
 }
@@ -257,27 +252,30 @@ function validateActivity(event)
         // Get a list of each timeslot
         for(let i = 0; i < activityInputs.length; i++)
         {
-            const activityTime = activityInputs[i].nextElementSibling.nextElementSibling.textContent;
-            const timeSlot = activityTime.replace(/\D/g, '');
+            const activityDate = activityInputs[i].nextElementSibling.nextElementSibling.textContent;
+            const timeSlot = activityDate.replace(/\D/g, '');
+            const activityDay = activityDate.replace(/\s\d+[a|p]m-\d+pm/gi, '');
+            console.log(activityDay);
             
-            if(timeSlot === '912')
+            if(timeSlot === '912' && activityDay !== 'Wednesday')
             {
                 firstTimeSlots.push(activityInputs[i]);
             }
-            else if(timeSlot === '14')
+            else if(timeSlot === '14' && activityDay !== 'Wednesday')
             {
                 secondTimeSlots.push(activityInputs[i]);
             }
-        }  
-    
-        const currentTime = event.target.nextElementSibling.nextElementSibling.textContent;
-        const currentTimeSlot = currentTime.replace(/\D/g, '');
+        }
+        
+        const currentDate = event.target.nextElementSibling.nextElementSibling.textContent;
+        const currentTimeSlot = currentDate.replace(/\D/g, '');
+        const currentActivityDay = currentDate.replace(/\s\d+[a|p]m-\d+pm/gi, '');
     
         // Enable/disable activities with the same timeslot based on if the checkbox is checked or unchecked
         if(event.target.checked)
         {
             // Disable activities with the same timeslot as the target
-            if(currentTimeSlot === '912')
+            if(currentTimeSlot === '912' && currentActivityDay !== 'Wednesday')
             {
                 for(let i = 0; i < firstTimeSlots.length; i++)
                 {
@@ -289,7 +287,7 @@ function validateActivity(event)
                     }
                 }
             }
-            else if(currentTimeSlot === '14')
+            else if(currentTimeSlot === '14' && currentActivityDay !== 'Wednesday')
             {
                 for(let i = 0; i < secondTimeSlots.length; i++)
                 {
@@ -305,7 +303,7 @@ function validateActivity(event)
         else if(!event.target.checked)
         {
             // Enable activities with the same timeslot as the target
-            if(currentTimeSlot === '912')
+            if(currentTimeSlot === '912' && currentActivityDay !== 'Wednesday')
             {
                 for(let i = 0; i < firstTimeSlots.length; i++)
                 {
@@ -317,7 +315,7 @@ function validateActivity(event)
                     }
                 }
             }
-            else if (currentTimeSlot === '14')
+            else if (currentTimeSlot === '14' && currentActivityDay !== 'Wednesday')
             {
                 for(let i = 0; i < secondTimeSlots.length; i++)
                 {
