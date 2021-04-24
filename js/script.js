@@ -37,13 +37,9 @@ designInput.addEventListener('input', e => {
         for(let i = 1; i < colors.length; i++)
         {
             if(colors[i].dataset.theme === 'js puns')
-            {
                 colors[i].hidden = false;
-            }
             else if(colors[i].dataset.theme === 'heart js')
-            {
                 colors[i].hidden = true;
-            }
         }
     }
     else if (e.target.value === 'heart js')
@@ -53,13 +49,9 @@ designInput.addEventListener('input', e => {
         for(let i = 1; i < colors.length; i++)
         {
             if(colors[i].dataset.theme === 'heart js')
-            {
                 colors[i].hidden = false;
-            }
             else if(colors[i].dataset.theme === 'js puns')
-            {
                 colors[i].hidden = true;
-            }
         }
     }
 });
@@ -135,36 +127,24 @@ addListenersToField('cvv');
 form.addEventListener('submit', e => {
     // If any input is invalid, do not submit form
     if(!validateField('name'))
-    {
         e.preventDefault();
-    }
 
     if(!validateField('email'))
-    {
         e.preventDefault();
-    }
 
     if(!validateActivity())
-    {
         e.preventDefault();
-    }
 
     if(paymentSelect.value === 'credit-card')
     {
         if(!validateField('cc-num'))
-        {
             e.preventDefault();
-        }
 
         if(!validateField('zip'))
-        {
             e.preventDefault();
-        }
 
         if(!validateField('cvv'))
-        {
             e.preventDefault();
-        }
     }
     // Else submit form
 });
@@ -260,13 +240,9 @@ function validateActivity(event)
             const activityDay = activityDate.replace(/\s\d+[a|p]m-\d+pm/gi, '');
             
             if(timeSlot === '912' && activityDay !== 'Wednesday')
-            {
                 firstTimeSlots.push(activityInputs[i]);
-            }
             else if(timeSlot === '14' && activityDay !== 'Wednesday')
-            {
                 secondTimeSlots.push(activityInputs[i]);
-            }
         }
         
         const currentDate = event.target.nextElementSibling.nextElementSibling.textContent;
@@ -338,9 +314,7 @@ function validateActivity(event)
         activityInputs[i].checked ? activityChecked = true : activityChecked = false;
 
         if(activityChecked)
-        {
             break;
-        }
     }
 
     // Flag user if no activities are checked
