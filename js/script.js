@@ -255,7 +255,6 @@ function validateActivity(event)
             const activityDate = activityInputs[i].nextElementSibling.nextElementSibling.textContent;
             const timeSlot = activityDate.replace(/\D/g, '');
             const activityDay = activityDate.replace(/\s\d+[a|p]m-\d+pm/gi, '');
-            console.log(activityDay);
             
             if(timeSlot === '912' && activityDay !== 'Wednesday')
             {
