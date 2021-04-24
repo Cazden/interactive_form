@@ -185,16 +185,32 @@ function validateField(field)
         break;
         case 'email':
             fieldIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(element.value);
+            if(!element.value)
+                hint.textContent = 'Email address field cannot be empty';
+            else
+                hint.textContent = 'Email address must be formatted correctly';
         break;
         case 'cc-num':
             fieldIsValid = /^\d{4}\d{4}\d{4}\d{1,4}$/.test(element.value);
             hint = document.querySelector(`#cc-hint`); // Necessary because #cc-hint does not contain 'num'
+            if(!element.value)
+                hint.textContent = 'Credit card field cannot be empty';
+            else
+                hint.textContent = 'Credit card number must be between 13 - 16 digits';
         break;
         case 'zip':
             fieldIsValid = /^\d{5}$/.test(element.value);
+            if(!element.value)
+                hint.textContent = 'Zip code field cannot be empty';
+            else
+                hint.textContent = 'Zip Code must be 5 digits';
         break;
         case 'cvv':
             fieldIsValid = /^\d{3}$/.test(element.value);
+            if(!element.value)
+                hint.textContent = 'CVV field cannot be empty';
+            else
+                hint.textContent = 'CVV must be 3 digits';
         break;
     }
 
@@ -228,37 +244,107 @@ function addListenersToField(field)
     });
 }
 
-// Validate that at least one activity is checked
-function validateActivity()
+// Validate activities don't share the same timeslot, and that at least one activity is checked
+function validateActivity(event)
 {
     const activityInputs = document.querySelectorAll('#activities input');
+    const firstTimeSlots = [];
+    const secondTimeSlots = [];
     let activityChecked = false;
 
-    // Loop through to check if any activities are selected
+    if(event) // is passed in
+    {
+        // Get a list of each timeslot
+        for(let i = 0; i < activityInputs.length; i++)
+        {
+            const activityTime = activityInputs[i].nextElementSibling.nextElementSibling.textContent;
+            const timeSlot = activityTime.replace(/\D/g, '');
+            
+            if(timeSlot === '912')
+            {
+                firstTimeSlots.push(activityInputs[i]);
+            }
+            else if(timeSlot === '14')
+            {
+                secondTimeSlots.push(activityInputs[i]);
+            }
+        }  
+    
+        const currentTime = event.target.nextElementSibling.nextElementSibling.textContent;
+        const currentTimeSlot = currentTime.replace(/\D/g, '');
+    
+        // Enable/disable activities with the same timeslot based on if the checkbox is checked or unchecked
+        if(event.target.checked)
+        {
+            // Disable activities with the same timeslot as the target
+            if(currentTimeSlot === '912')
+            {
+                for(let i = 0; i < firstTimeSlots.length; i++)
+                {
+                    if(firstTimeSlots[i] !== event.target)
+                    {
+                        const label = firstTimeSlots[i].parentNode;
+                        firstTimeSlots[i].disabled = true;
+                        label.className = 'disabled';
+                    }
+                }
+            }
+            else if(currentTimeSlot === '14')
+            {
+                for(let i = 0; i < secondTimeSlots.length; i++)
+                {
+                    if(secondTimeSlots[i] !== event.target)
+                    {
+                        const label = secondTimeSlots[i].parentNode;
+                        secondTimeSlots[i].disabled = true;
+                        label.className = 'disabled';
+                    }
+                }
+            }
+        }
+        else if(!event.target.checked)
+        {
+            // Enable activities with the same timeslot as the target
+            if(currentTimeSlot === '912')
+            {
+                for(let i = 0; i < firstTimeSlots.length; i++)
+                {
+                    if(firstTimeSlots[i] !== event.target)
+                    {
+                        const label = firstTimeSlots[i].parentNode;
+                        firstTimeSlots[i].disabled = false;
+                        label.className = '';
+                    }
+                }
+            }
+            else if (currentTimeSlot === '14')
+            {
+                for(let i = 0; i < secondTimeSlots.length; i++)
+                {
+                    if(secondTimeSlots[i] !== event.target)
+                    {
+                        const label = secondTimeSlots[i].parentNode;
+                        secondTimeSlots[i].disabled = false;
+                        label.className = '';
+                    }
+                }
+            }
+        }
+    }
+
+    // Loop through to see if any activities are checked
     for(let i = 0; i < activityInputs.length; i++)
     {
-        const activityTime = activityInputs[i].nextElementSibling.nextElementSibling.textContent;
-        const timeslot = activityTime.replace(/\D/g, '');
         activityInputs[i].checked ? activityChecked = true : activityChecked = false;
+
         if(activityChecked)
         {
             break;
         }
     }
-    
-    // TODO
-    // Loop through to prevent users from selecting an activity with the same timeslot
-    for(let i = 1; i < activityInputs.length; i++)
-    {
-        const activityDate = activityInputs[i].nextElementSibling.nextElementSibling.textContent;
-        const currentTimeSlot = activityDate.replace(/\D/g, '');
-        
-        const label = activityInputs[i].parentNode;
-        label.className = 'disabled';
-    }
 
     // Flag user if no activities are checked
-    if (!activityChecked)
+    if(!activityChecked)
     {
         activities.className = 'activities not-valid';
         activities.lastElementChild.style.display = 'block';
@@ -280,6 +366,6 @@ activities.addEventListener('focusin', () => {
 activities.addEventListener('focusout', () => {
     validateActivity();
 });
-activities.addEventListener('input', () => {
-    validateActivity();
+activities.addEventListener('input', (e) => {
+    validateActivity(e);
 });
