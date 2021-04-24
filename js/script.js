@@ -95,7 +95,7 @@ activities.addEventListener('focusout', e => {
 
 /*** 
  * Payment Information
- ***/
+***/
 const paymentMethods = document.querySelectorAll('.payment-methods > div');
 const paymentSelect = document.querySelector('#payment');
 
@@ -121,7 +121,7 @@ paymentSelect.addEventListener('input', e => {
 
 /*** 
  * Form Validation
- ***/
+***/
 const form = document.querySelector('form');
 
 // Add listeners to input fields to perform real-time validation
@@ -350,6 +350,7 @@ function validateActivity(event)
         activities.lastElementChild.style.display = 'block';
         return false;
     }
+    // Else continue
     activities.className = 'activities valid';
     activities.lastElementChild.style.display = 'none';
     return true;
