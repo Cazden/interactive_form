@@ -5,7 +5,7 @@
  - Allows form users to register with required and optional fields
  - Dynamically changes form input fields based on user selection
  - Performs real-time validation on all input fields
- - Provides custom user error-messaging related to the associated validation
+ - Provides conditional user error-messaging related to the associated validation
 
 **Code Example**
 
@@ -38,7 +38,7 @@ paymentSelect.addEventListener('input', e => {
 });
 ```
 
-**Custom Error Messaging**
+**Conditional Error-Messaging**
 
 Users will get more specific error-messaging based on the validation effort.
 For example, if the email field is blank, the user will receive an error-message describing that.
@@ -50,6 +50,8 @@ else
     hint.textContent = 'Email address must be formatted correctly';
 ```
 Finally, the user will be notified that the field is correctly formatted if it passes validation.
+
+Other conditional error-messages are included on the 'Card Number', 'Zip Code' and 'CVV' input fields.
 
 **How to use?**  
 
